@@ -1,5 +1,5 @@
 
-import { FaCircle } from 'react-icons/fa'; // You can choose different icons as needed
+import { FaCircle } from 'react-icons/fa'; 
 
 const SectionComponent = () => {
   return (

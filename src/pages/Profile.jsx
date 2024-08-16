@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
-import { FaEdit, FaTrashAlt, FaEnvelope, FaUser, FaCalendarAlt, FaBriefcase, FaMapMarkerAlt, FaBuilding } from 'react-icons/fa';
+import { FaEdit, FaTrashAlt, FaEnvelope, FaUser, FaCalendarAlt, FaBriefcase, FaBuilding, FaPhone } from 'react-icons/fa';
 import JobList from '../components/JobList';
 
 const ProfilePage = () => {
@@ -10,6 +10,7 @@ const ProfilePage = () => {
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
+    phone: user?.phone || '',
     gender: user?.gender || '',
     dob: user?.dob || '',
     jobTitle: user?.jobTitle || '',
@@ -48,7 +49,7 @@ const ProfilePage = () => {
     }
   };
 
-  if (!user) return null; // Handle loading or no user state
+  if (!user) return null; 
 
   return (
     <section className="section mt-6">
@@ -94,7 +95,6 @@ const ProfilePage = () => {
           <div className="content">
             {editMode ? (
               <>
-                {/* Form Fields for Editing */}
                 <div className="field">
                   <label className="label">Name</label>
                   <div className="control">
@@ -115,6 +115,18 @@ const ProfilePage = () => {
                       type="email"
                       name="email"
                       value={formData.email}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <label className="label">Phone Number</label>
+                  <div className="control">
+                    <input
+                      className="input"
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -235,7 +247,7 @@ const ProfilePage = () => {
               </>
             ) : (
               <div className="columns is-multiline">
-                {/* Display content based on user role */}
+              
                 {user.role === 'employee' ? (
                   <>
                     <div className="column is-half mt-6">
@@ -271,25 +283,45 @@ const ProfilePage = () => {
                         </div>
                       </div>
                     </div>
+                    <div className="column is-half">
+                      <div className="box has-background-warning-light">
+                        <div className="icon-text">
+                          <span className="icon has-text-warning">
+                            <FaBuilding />
+                          </span>
+                          <span className="text"><strong>Company Description:</strong> {formData.companyDescription}</span>
+                        </div>
+                      </div>
+                    </div>
                   </>
                 )}
                 <div className="column is-half">
-                  <div className="box has-background-warning-light">
+                  <div className="box has-background-light">
                     <div className="icon-text">
-                      <span className="icon has-text-warning">
-                        <FaMapMarkerAlt />
+                      <span className="icon has-text-primary">
+                        <FaPhone />
                       </span>
-                      <span className="text"><strong>Location:</strong> {formData.town}, {formData.county}</span>
+                      <span className="text"><strong>Phone:</strong> {formData.phone}</span>
                     </div>
                   </div>
                 </div>
                 <div className="column is-half">
-                  <div className="box has-background-info-light">
+                  <div className="box has-background-warning-light">
                     <div className="icon-text">
-                      <span className="icon has-text-info">
+                      <span className="icon has-text-warning">
                         <FaEnvelope />
                       </span>
                       <span className="text"><strong>Email:</strong> {formData.email}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="column is-half">
+                  <div className="box has-background-primary-light">
+                    <div className="icon-text">
+                      <span className="icon has-text-primary">
+                        <FaUser />
+                      </span>
+                      <span className="text"><strong>Name:</strong> {formData.name}</span>
                     </div>
                   </div>
                 </div>
@@ -297,10 +329,12 @@ const ProfilePage = () => {
             )}
           </div>
         </div>
-
-        {/* JobList component here */}
-        <JobList />
       </div>
+      {user.role === 'employee' && (
+        <div className="container">
+          <JobList userId={user._id} />
+        </div>
+      )}
     </section>
   );
 };

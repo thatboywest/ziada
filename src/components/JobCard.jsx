@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { FaTrashAlt, FaCheck } from 'react-icons/fa'; // Import icons from react-icons
+import { FaTrashAlt, FaCheck } from 'react-icons/fa'; 
 
 const JobCard = ({ job }) => {
   const {

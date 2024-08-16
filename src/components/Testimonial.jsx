@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'; // Use the icons or images you prefer
+import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'; 
 
 const TestimonialsSection = () => {
   return (

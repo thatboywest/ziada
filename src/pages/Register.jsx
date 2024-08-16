@@ -11,6 +11,7 @@ const SignupPage = () => {
     role: '',
     name: '',
     email: '',
+    phone: '', 
     password: '',
     confirmPassword: '',
     profilePhoto: null,
@@ -25,15 +26,23 @@ const SignupPage = () => {
     companyDescription: '',
   });
 
+  const validatePhoneNumber = (phone) => {
+    const kenyanPhonePattern = /^(\+254|0)[7]\d{8}$/;
+    return kenyanPhonePattern.test(phone);
+  };
+
   const handleNext = () => {
     if (step === 1) {
-      // Validate step 1 fields
       if (!formData.role) {
         alert('Please select a role.');
         return;
       }
-      if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
+      if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword || !formData.phone) {
         alert('Please fill in all required fields.');
+        return;
+      }
+      if (!validatePhoneNumber(formData.phone)) {
+        alert('Please enter a valid Kenyan phone number.');
         return;
       }
       if (formData.password !== formData.confirmPassword) {
@@ -45,19 +54,16 @@ const SignupPage = () => {
         return;
       }
     } else if (step === 2 && formData.role === 'employee') {
-      // Validate step 2 fields for employees
-      if (!formData.profilePhoto || !formData.gender || !formData.dob || !formData.backgroundPhoto) {
+      if (!formData.gender || !formData.dob || !formData.backgroundPhoto) {
         alert('Please fill in all required fields.');
         return;
       }
     } else if (step === 3 && formData.role === 'employee') {
-      // Validate step 3 fields for employees
       if (!formData.jobTitle || !formData.jobDescription || !formData.county || !formData.town) {
         alert('Please fill in all required fields.');
         return;
       }
     } else if (step === 2 && formData.role === 'employer') {
-      // Validate step 2 fields for employers
       if (!formData.companyName || !formData.companyDescription) {
         alert('Please fill in all required fields.');
         return;
@@ -79,7 +85,6 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Age check (must be 18 or older)
     if (formData.role === 'employee') {
       const dob = new Date(formData.dob);
       const today = new Date();
@@ -93,7 +98,6 @@ const SignupPage = () => {
       }
     }
 
-    // Prepare form data for API
     const apiFormData = new FormData();
     for (const key in formData) {
       if (formData[key]) {
@@ -102,10 +106,7 @@ const SignupPage = () => {
     }
 
     try {
-      // Determine the API endpoint based on role
       const endpoint = formData.role === 'employee' ? 'http://localhost:8080/api/signup' : 'http://localhost:8080/api/signup';
-      
-      // Make the API request
       const response = await axios.post(endpoint, apiFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -174,6 +175,20 @@ const SignupPage = () => {
                         </div>
                       </div>
                       <div className="field">
+                        <label className="label">Phone</label>
+                        <div className="control">
+                          <input
+                            className="input"
+                            type="text"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="Enter your phone number"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="field">
                         <label className="label">Password</label>
                         <div className="control">
                           <input
@@ -223,19 +238,18 @@ const SignupPage = () => {
                       </div>
                     </>
                   )}
-
                   {step === 2 && formData.role === 'employee' && (
                     <>
-                      <h2 className="subtitle is-5">Step 2: Profile Details</h2>
+                      <h2 className="subtitle is-5">Step 2: Personal Information</h2>
                       <div className="field">
                         <label className="label">Gender</label>
                         <div className="control">
                           <div className="select">
                             <select name="gender" value={formData.gender} onChange={handleChange} required>
                               <option value="">Select your gender</option>
-                              <option value="male">Male</option>
-                              <option value="female">Female</option>
-                              <option value="other">Other</option>
+                              <option value="Male">Male</option>
+                              <option value="Female">Female</option>
+                              <option value="Other">Other</option>
                             </select>
                           </div>
                         </div>
@@ -267,27 +281,18 @@ const SignupPage = () => {
                         </div>
                       </div>
                       <div className="buttons">
-                        <button
-                          className="button is-primary"
-                          type="button"
-                          onClick={handlePrevious}
-                        >
+                        <button className="button is-light" type="button" onClick={handlePrevious}>
                           Previous
                         </button>
-                        <button
-                          className="button is-primary"
-                          type="button"
-                          onClick={handleNext}
-                        >
+                        <button className="button is-primary" type="button" onClick={handleNext}>
                           Next
                         </button>
                       </div>
                     </>
                   )}
-
                   {step === 2 && formData.role === 'employer' && (
                     <>
-                      <h2 className="subtitle is-5">Step 2: Company Details</h2>
+                      <h2 className="subtitle is-5">Step 2: Company Information</h2>
                       <div className="field">
                         <label className="label">Company Name</label>
                         <div className="control">
@@ -297,7 +302,7 @@ const SignupPage = () => {
                             name="companyName"
                             value={formData.companyName}
                             onChange={handleChange}
-                            placeholder="Enter your company name"
+                            placeholder="Enter company name"
                             required
                           />
                         </div>
@@ -310,33 +315,24 @@ const SignupPage = () => {
                             name="companyDescription"
                             value={formData.companyDescription}
                             onChange={handleChange}
-                            placeholder="Enter a brief company description"
+                            placeholder="Enter company description"
                             required
                           />
                         </div>
                       </div>
                       <div className="buttons">
-                        <button
-                          className="button is-primary"
-                          type="button"
-                          onClick={handlePrevious}
-                        >
+                        <button className="button is-light" type="button" onClick={handlePrevious}>
                           Previous
                         </button>
-                        <button
-                          className="button is-primary"
-                          type="button"
-                          onClick={handleSubmit}
-                        >
-                          submit
+                        <button className="button is-primary" type="button" onClick={handleNext}>
+                          Next
                         </button>
                       </div>
                     </>
                   )}
-
                   {step === 3 && formData.role === 'employee' && (
                     <>
-                      <h2 className="subtitle is-5">Step 3: Job Details</h2>
+                      <h2 className="subtitle is-5">Step 3: Job Information</h2>
                       <div className="field">
                         <label className="label">Job Title</label>
                         <div className="control">
@@ -346,7 +342,6 @@ const SignupPage = () => {
                             name="jobTitle"
                             value={formData.jobTitle}
                             onChange={handleChange}
-                            placeholder="Enter your job title"
                             required
                           />
                         </div>
@@ -359,9 +354,15 @@ const SignupPage = () => {
                             name="jobDescription"
                             value={formData.jobDescription}
                             onChange={handleChange}
-                            placeholder="Enter a brief job description"
                             required
-                          />
+                          ></textarea>
+                          {formData.jobDescription && (
+                            <p className="help is-danger">
+                              {countWords(formData.jobDescription) > 50
+                                ? 'Job description cannot exceed 50 words.'
+                                : ''}
+                            </p>
+                          )}
                         </div>
                       </div>
                       <div className="field">
@@ -371,7 +372,9 @@ const SignupPage = () => {
                             <select name="county" value={formData.county} onChange={handleChange} required>
                               <option value="">Select your county</option>
                               {counties.map((county) => (
-                                <option key={county} value={county}>{county}</option>
+                                <option key={county} value={county}>
+                                  {county}
+                                </option>
                               ))}
                             </select>
                           </div>
@@ -386,24 +389,29 @@ const SignupPage = () => {
                             name="town"
                             value={formData.town}
                             onChange={handleChange}
-                            placeholder="Enter your town"
                             required
                           />
                         </div>
                       </div>
                       <div className="buttons">
-                        <button
-                          className="button is-primary"
-                          type="button"
-                          onClick={handlePrevious} 
-                        >
+                        <button className="button is-light" type="button" onClick={handlePrevious}>
                           Previous
                         </button>
-                        <button
-                          className="button is-primary"
-                          type="submit"
-                          onClick={handleSubmit}
-                        >
+                        <button className="button is-primary" type="submit">
+                          Submit
+                        </button>
+                      </div>
+                    </>
+                  )}
+                  {step === 3 && formData.role === 'employer' && (
+                    <>
+                      <h2 className="subtitle is-5">Step 3: Confirmation</h2>
+                      <p>Review your information and submit the form.</p>
+                      <div className="buttons">
+                        <button className="button is-light" type="button" onClick={handlePrevious}>
+                          Previous
+                        </button>
+                        <button className="button is-primary" type="submit">
                           Submit
                         </button>
                       </div>
@@ -417,6 +425,10 @@ const SignupPage = () => {
       </div>
     </section>
   );
+};
+
+const countWords = (str) => {
+  return str.trim().split(/\s+/).length;
 };
 
 export default SignupPage;

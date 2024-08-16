@@ -66,7 +66,6 @@ const Jobs = () => {
   return (
     <div className="container is-fluid">
       <div className="columns">
-        {/* Sidebar */}
         <div className="column is-one-quarter">
           <aside className="menu">
             <p className="menu-label">Filters</p>
@@ -119,7 +118,7 @@ const Jobs = () => {
           </aside>
         </div>
 
-        {/* Job List */}
+       
         <div className="column is-three-quarters">
           <h1 className="title mt-6 has-text-centered">Jobs Available</h1>
           <div className="columns is-multiline">

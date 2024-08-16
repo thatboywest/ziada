@@ -14,7 +14,7 @@ const HeroSection = () => {
       <div className="hero-body" style={{ position: 'relative', zIndex: 2 }}>
         <div className="container">
           <div className="columns">
-            {/* Left side: Title and Subtitle */}
+            
             <div className="column is-half">
               <div className="content">
                 <h1 className="title">Find Your Next Casual Job</h1>

@@ -4,7 +4,7 @@ import React from 'react';
 const WorkerJobCard = ({ job }) => {
   const postedDate = new Date(job.postedDate);
   const now = new Date();
-  const timeDiff = Math.floor((now - postedDate) / (1000 * 60 * 60)); // Difference in hours
+  const timeDiff = Math.floor((now - postedDate) / (1000 * 60 * 60)); 
   const postedTime = timeDiff < 1 ? 'New' : `${timeDiff} hrs ago`;
   const statusClass = job.status === 'Active' ? 'is-success' : 'is-light';
 

@@ -28,8 +28,6 @@ const JobPostForm = () => {
         e.preventDefault();
         setIsSubmitting(true);
         setSubmissionStatus('');
-
-        // Retrieve token from local storage or wherever you store it
         const token = localStorage.getItem('token'); 
 
         try {
@@ -85,7 +83,6 @@ const JobPostForm = () => {
                                                     <option value="Cleaning">Cleaning</option>
                                                     <option value="Tutoring">Tutoring</option>
                                                     <option value="Delivery">Delivery</option>
-                                                    {/* Add more options as needed */}
                                                 </select>
                                             </div>
                                         </div>

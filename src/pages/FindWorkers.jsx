@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa';
 
-
 const EmployeesPage = () => {
   const [employees, setEmployees] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTown, setSelectedTown] = useState('');
+  const [selectedCounty, setSelectedCounty] = useState('');
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -19,15 +21,84 @@ const EmployeesPage = () => {
     fetchEmployees();
   }, []);
 
+  const filteredEmployees = employees.filter((employee) => {
+    const matchesSearch = employee.jobTitle.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesTown = selectedTown ? employee.town === selectedTown : true;
+    const matchesCounty = selectedCounty ? employee.county === selectedCounty : true;
+    return matchesSearch && matchesTown && matchesCounty;
+  });
+
+  const uniqueTowns = [...new Set(employees.map((employee) => employee.town))];
+  const uniqueCounties = [...new Set(employees.map((employee) => employee.county))];
+
   return (
     <div className="container">
       <h1 className="title has-text-centered">Employee Profiles</h1>
+
+
+      <div className="field">
+        <div className="control">
+          <input
+            className="input"
+            type="text"
+            placeholder="Search by job title..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+      </div>
+
+
+      <div className="columns">
+        <div className="column">
+          <div className="field">
+            <label className="label">Filter by Town</label>
+            <div className="control">
+              <div className="select">
+                <select
+                  value={selectedTown}
+                  onChange={(e) => setSelectedTown(e.target.value)}
+                >
+                  <option value="">All Towns</option>
+                  {uniqueTowns.map((town) => (
+                    <option key={town} value={town}>
+                      {town}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="column">
+          <div className="field">
+            <label className="label">Filter by County</label>
+            <div className="control">
+              <div className="select">
+                <select
+                  value={selectedCounty}
+                  onChange={(e) => setSelectedCounty(e.target.value)}
+                >
+                  <option value="">All Counties</option>
+                  {uniqueCounties.map((county) => (
+                    <option key={county} value={county}>
+                      {county}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       <div className="columns is-multiline">
-        {employees.length > 0 ? (
-          employees.map((employee) => (
+        {filteredEmployees.length > 0 ? (
+          filteredEmployees.map((employee) => (
             <div key={employee._id} className="column is-one-third">
               <div className="card">
-                {/* Background Photo */}
+
                 <div
                   className="card-image"
                   style={{
@@ -38,13 +109,13 @@ const EmployeesPage = () => {
                     position: 'relative',
                   }}
                 >
-                  {/* Circular Profile Photo */}
+
                   <figure
                     className="image is-128x128"
                     style={{
                       position: 'absolute',
                       top: '150px',
-                      left: '20px', // Adjust this value to move the image left
+                      left: '20px',
                       zIndex: '1',
                     }}
                   >
@@ -55,16 +126,16 @@ const EmployeesPage = () => {
                     />
                   </figure>
                 </div>
-                {/* Card Content */}
+
                 <div className="card-content mt-6" style={{ paddingTop: '70px' }}>
                   <p className="title is-4 tag is-info">{employee.name}</p>
-                  <p className="subtitle is-6">
+                  <p className="subtitle is-4 mt-4">
                     <FaBriefcase className="icon" /> {employee.jobTitle}
                   </p>
                   <div className="content">
                     <p>{employee.jobDescription}</p>
                     <p className="mt-3 tag">
-                      <FaMapMarkerAlt className="icon" /> {employee.county}, {employee.town}
+                      {employee.county}, {employee.town}
                     </p>
                   </div>
                 </div>
