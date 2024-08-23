@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import { useNavigate } from 'react-router-dom';
+
+
+
 const counties = [
   'Nairobi', 'Mombasa', 'Kisumu', 'Eldoret', 'Nakuru', 'Kericho', 'Thika', 'Kitui', 'Meru', 'Machakos', 'Kajiado', 'Garissa', 'Wajir', 'Mandera', 'Isiolo', 'Marsabit', 'Nyeri', 'Kirinyaga', 'Nyandarua', 'Laikipia'
 ];
 
+
 const SignupPage = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     role: '',
     name: '',
@@ -27,7 +34,8 @@ const SignupPage = () => {
   });
 
   const validatePhoneNumber = (phone) => {
-    const kenyanPhonePattern = /^(\+254|0)[7]\d{8}$/;
+    const kenyanPhonePattern = /^(07|01|\+2547)\d{8}$/;
+
     return kenyanPhonePattern.test(phone);
   };
 
@@ -84,6 +92,7 @@ const SignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     if (formData.role === 'employee') {
       const dob = new Date(formData.dob);
@@ -94,6 +103,7 @@ const SignupPage = () => {
       }
       if (age < 18) {
         alert('You must be at least 18 years old to sign up.');
+        setIsSubmitting(false);
         return;
       }
     }
@@ -115,10 +125,13 @@ const SignupPage = () => {
 
       console.log('Response:', response.data);
       alert('Signup successful!');
+      navigate('/login')
      
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('There was an error submitting your form. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -281,50 +294,18 @@ const SignupPage = () => {
                         </div>
                       </div>
                       <div className="buttons">
-                        <button className="button is-light" type="button" onClick={handlePrevious}>
+                        <button
+                          className="button is-light"
+                          type="button"
+                          onClick={handlePrevious}
+                        >
                           Previous
                         </button>
-                        <button className="button is-primary" type="button" onClick={handleNext}>
-                          Next
-                        </button>
-                      </div>
-                    </>
-                  )}
-                  {step === 2 && formData.role === 'employer' && (
-                    <>
-                      <h2 className="subtitle is-5">Step 2: Company Information</h2>
-                      <div className="field">
-                        <label className="label">Company Name</label>
-                        <div className="control">
-                          <input
-                            className="input"
-                            type="text"
-                            name="companyName"
-                            value={formData.companyName}
-                            onChange={handleChange}
-                            placeholder="Enter company name"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="field">
-                        <label className="label">Company Description</label>
-                        <div className="control">
-                          <textarea
-                            className="textarea"
-                            name="companyDescription"
-                            value={formData.companyDescription}
-                            onChange={handleChange}
-                            placeholder="Enter company description"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="buttons">
-                        <button className="button is-light" type="button" onClick={handlePrevious}>
-                          Previous
-                        </button>
-                        <button className="button is-primary" type="button" onClick={handleNext}>
+                        <button
+                          className="button is-primary"
+                          type="button"
+                          onClick={handleNext}
+                        >
                           Next
                         </button>
                       </div>
@@ -355,14 +336,7 @@ const SignupPage = () => {
                             value={formData.jobDescription}
                             onChange={handleChange}
                             required
-                          ></textarea>
-                          {formData.jobDescription && (
-                            <p className="help is-danger">
-                              {countWords(formData.jobDescription) > 50
-                                ? 'Job description cannot exceed 50 words.'
-                                : ''}
-                            </p>
-                          )}
+                          />
                         </div>
                       </div>
                       <div className="field">
@@ -394,25 +368,65 @@ const SignupPage = () => {
                         </div>
                       </div>
                       <div className="buttons">
-                        <button className="button is-light" type="button" onClick={handlePrevious}>
+                        <button
+                          className="button is-light"
+                          type="button"
+                          onClick={handlePrevious}
+                        >
                           Previous
                         </button>
-                        <button className="button is-primary" type="submit">
-                          Submit
+                        <button
+                          className="button is-primary"
+                          type="submit"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? 'Submitting...' : 'Submit'}
                         </button>
                       </div>
                     </>
                   )}
-                  {step === 3 && formData.role === 'employer' && (
+                  {step === 2 && formData.role === 'employer' && (
                     <>
-                      <h2 className="subtitle is-5">Step 3: Confirmation</h2>
-                      <p>Review your information and submit the form.</p>
+                      <h2 className="subtitle is-5">Step 2: Company Information</h2>
+                      <div className="field">
+                        <label className="label">Company Name</label>
+                        <div className="control">
+                          <input
+                            className="input"
+                            type="text"
+                            name="companyName"
+                            value={formData.companyName}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="field">
+                        <label className="label">Company Description</label>
+                        <div className="control">
+                          <textarea
+                            className="textarea"
+                            name="companyDescription"
+                            value={formData.companyDescription}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                      </div>
                       <div className="buttons">
-                        <button className="button is-light" type="button" onClick={handlePrevious}>
+                        <button
+                          className="button is-light"
+                          type="button"
+                          onClick={handlePrevious}
+                        >
                           Previous
                         </button>
-                        <button className="button is-primary" type="submit">
-                          Submit
+                        <button
+                          className="button is-primary"
+                          type="submit"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? 'Submitting...' : 'Submit'}
                         </button>
                       </div>
                     </>
@@ -427,8 +441,5 @@ const SignupPage = () => {
   );
 };
 
-const countWords = (str) => {
-  return str.trim().split(/\s+/).length;
-};
-
 export default SignupPage;
+

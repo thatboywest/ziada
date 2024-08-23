@@ -33,7 +33,7 @@ const EmployeesPage = () => {
 
   return (
     <div className="container">
-      <h1 className="title has-text-centered">Employee Profiles</h1>
+      <h1 className="title has-text-centered">Find taskers</h1>
 
 
       <div className="field">

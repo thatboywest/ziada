@@ -1,4 +1,3 @@
-
 import { useContext, useState } from 'react';
 import HamburgerMenu from 'react-hamburger-menu'; 
 import { Link } from 'react-router-dom';  
@@ -53,38 +52,35 @@ const Navbar = () => {
                 <li><Link className=" has-text-light" to="/get-work-done">Find-workers</Link></li>
               </ul>
             </div>
-            <div className="navbar-end">
+            <div className="navbar-item">
               {isAuthenticated ? (
                 <div className="navbar-item">
-                  <div className="dropdown is-hoverable">
+                  <div className={`dropdown ${isDropdownOpen ? 'is-active' : ''}`} onClick={toggleDropdown}>
                     <div className="dropdown-trigger">
                       <button 
-                        className="button " 
+                        className="button" 
                         aria-haspopup="true" 
                         aria-controls="dropdown-menu" 
-                        onClick={toggleDropdown}
                       >
-                        <span className="icon">
+                        <span className="image">
                           <img
                             src={user?.profilePhoto} 
                             alt="Profile"
-                            style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '50%' }} 
+                            style={{ borderRadius: '50%' }} 
                           />
                         </span>
                       </button>
                     </div>
-                    {isDropdownOpen && (
-                      <div id="dropdown-menu" className="dropdown-menu is-active" style={{ position: 'absolute', right: 0, top: '100%', marginTop: '0.5rem' }}>
-                        <div className="dropdown-content">
-                          <Link to="/profile" className="dropdown-item">
-                            Profile
-                          </Link>
-                          <button className="dropdown-item" onClick={logout}>
-                            Logout
-                          </button>
-                        </div>
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <Link to="/profile" className="dropdown-item">
+                          Profile
+                        </Link>
+                        <button className="dropdown-item" onClick={logout}>
+                          Logout
+                        </button>
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
               ) : (

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { FaTrashAlt, FaCheck } from 'react-icons/fa'; 
+import { FaTrashAlt, FaCheck, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const JobCard = ({ job }) => {
   const {
@@ -13,8 +13,11 @@ const JobCard = ({ job }) => {
     paymentType,
     town,
     county,
-    status,
+    interestedUsers,
+    
   } = job;
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDelete = async (jobId) => {
     const endpoint = 'http://localhost:8080/api';
@@ -92,7 +95,32 @@ const JobCard = ({ job }) => {
             <span>Mark as Done</span>
           </button>
         </div>
+        <div className="card-footer-item">
+          <button
+            className="button is-info is-small"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
+            {isDropdownOpen ? <FaChevronUp /> : <FaChevronDown />}
+            <span>Interested Users</span>
+          </button>
+        </div>
       </footer>
+      {isDropdownOpen && interestedUsers.length > 0 && (
+        <div className="card-content">
+          <ul>
+            {interestedUsers.map(user => (
+              <li key={user._id}>
+                {user.name} - {user.phone}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {isDropdownOpen && interestedUsers.length === 0 && (
+        <div className="card-content">
+          <p>No users have shown interest in this job.</p>
+        </div>
+      )}
     </div>
   );
 };

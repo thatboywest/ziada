@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom'; 
 import WorkerJobCard from '../components/WorkerJobCard';
 
 const Jobs = () => {
@@ -21,13 +22,19 @@ const Jobs = () => {
           },
         });
 
-        // Shuffle the jobs
         const shuffledJobs = response.data.sort(() => Math.random() - 0.5);
         setJobs(shuffledJobs);
         setFilteredJobs(shuffledJobs);
       } catch (error) {
-        setError('Error fetching jobs');
-        console.error('Error fetching jobs:', error);
+        if (error.response && error.response.status === 403) {
+          setError('You need to log in first.');
+          setTimeout(() => {
+            navigate('/login'); 
+          }, 2000);
+        } else {
+          setError('Error fetching jobs');
+          console.error('Error fetching jobs:', error);
+        }
       } finally {
         setLoading(false);
       }
@@ -118,14 +125,15 @@ const Jobs = () => {
           </aside>
         </div>
 
-       
         <div className="column is-three-quarters">
           <h1 className="title mt-6 has-text-centered">Jobs Available</h1>
           <div className="columns is-multiline">
             {filteredJobs.length > 0 ? (
               filteredJobs.map(job => (
                 <div className="column is-one-third" key={job._id}>
-                  <WorkerJobCard job={job} />
+                 
+                    <WorkerJobCard job={job} />
+                 
                 </div>
               ))
             ) : (

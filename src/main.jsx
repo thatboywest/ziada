@@ -5,10 +5,13 @@ import App from './App.jsx'
 import './styles/my-bulma-project.css'
 
 
+
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
-  <StrictMode>
-    <App />
-  </StrictMode>
+    
+      <StrictMode>
+        <App />
+      </StrictMode>
+    
   </AuthProvider>
 )

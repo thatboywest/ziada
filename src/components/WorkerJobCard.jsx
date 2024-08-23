@@ -1,10 +1,62 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const WorkerJobCard = ({ job }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [requestSent, setRequestSent] = useState(false);
+
+  useEffect(() => {
+    // Check if the request has already been sent
+    const checkRequestStatus = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get(`http://localhost:8080/api/job/${job._id}/request-status`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        setRequestSent(response.data.requestSent);
+      } catch (error) {
+        console.error('Error fetching request status:', error);
+      }
+    };
+
+    checkRequestStatus();
+  }, [job._id]);
+
+  const handleSendJobRequest = async () => {
+    if (requestSent) return; 
+
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/interest', {
+        jobId: job._id,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      setRequestSent(true);
+      setSuccess('Job request sent successfully!');
+    } catch (err) {
+      setError('Failed to send job request. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const postedDate = new Date(job.postedDate);
   const now = new Date();
-  const timeDiff = Math.floor((now - postedDate) / (1000 * 60 * 60)); 
+  const timeDiff = Math.floor((now - postedDate) / (1000 * 60 * 60));
   const postedTime = timeDiff < 1 ? 'New' : `${timeDiff} hrs ago`;
   const statusClass = job.status === 'Active' ? 'is-success' : 'is-light';
 
@@ -45,9 +97,15 @@ const WorkerJobCard = ({ job }) => {
         </p>
       </div>
       <footer className="card-footer">
-        <p className="tag is-dark">
-          Posted by: {job.user.email}
-        </p>
+        <button
+          onClick={handleSendJobRequest}
+          className={`button ${requestSent ? 'is-success' : 'is-dark'} is-small`}
+          disabled={loading || requestSent}
+        >
+          {loading ? 'Sending...' : requestSent ? 'Request Sent' : 'Send Job Request'}
+        </button>
+        {error && <p className="has-text-danger">{error}</p>}
+        {success && <p className="has-text-success">{success}</p>}
       </footer>
     </div>
   );
