@@ -16,19 +16,16 @@ const Navbar = () => {
       <nav className="navbar py-5 has-background-primary">
         <div className="container is-fluid">
           <div className="navbar-brand">
-            <Link to='/'>
-           
-            <a className="mr-6" href="#">
+            <Link to="/">
               <img
                 src="https://res.cloudinary.com/dhrybaucr/image/upload/v1724405466/bq4kj86qbdnnh0hfjedo.png"
                 alt="Logo"
                 style={{ height: '120px', width: 'auto' }}
                 className="is-rounded"
               />
-            </a>
             </Link>
             <button
-              className="navbar-menu-open navbar-burger"
+              className={`navbar-burger ${isMenuOpen ? 'is-active' : ''} has-background-primary`}
               type="button"
               aria-label="Menu"
               onClick={toggleMenu}
@@ -44,7 +41,7 @@ const Navbar = () => {
               />
             </button>
           </div>
-          <div className={`navbar-menu  ${isMenuOpen ? 'is-active ' : ''}`}>
+          <div className={`navbar-menu ${isMenuOpen ? 'is-active' : ''} has-background-primary`}>
             <div className="navbar-start">
               <ul className="navbar-item pl-0">
                 <li>
@@ -117,8 +114,8 @@ const Navbar = () => {
         </div>
       </nav>
       <div
-        className={`is-hidden navbar-side is-fixed is-top-0 is-bottom-0 is-left-0 has-mw-md ${isMenuOpen ? 'is-active' : ''}`}
-        style={{ width: '75%', zIndex: 9999, backgroundColor: '#092327' }} 
+        className={`is-hidden navbar-side is-fixed is-top-0 is-bottom-0 is-left-0 ${isMenuOpen ? 'is-active has-background-primary' : ''}`}
+        style={{ width: '75%', zIndex: 9999 }}
       >
         <div className="navbar-backdrop is-fixed is-inset-0 has-background-dark" style={{ opacity: '75%', zIndex: 50 }}></div>
         <aside
