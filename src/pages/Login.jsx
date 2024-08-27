@@ -26,7 +26,15 @@ const LoginForm = () => {
       <div className="columns is-centered">
         <div className="column is-half-tablet is-one-third-desktop">
           <div className="box">
-            <h2 className="title is-4 has-text-centered">Welcome Back</h2>
+           
+          
+            <div className="has-text-centered mb-4 is-dark">
+              <img
+                src="https://res.cloudinary.com/dhrybaucr/image/upload/v1724405084/nao2q2ddva6hzofzy9e8.png"
+                alt="Logo"
+                style={{ height: '100px', width: 'auto' }}
+              />
+            </div>
             <form onSubmit={handleSubmit}>
               <div className="field">
                 <label className="label">Email</label>

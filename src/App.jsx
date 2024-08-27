@@ -8,6 +8,7 @@ import ProfilePage from "./pages/Profile";
 import JobPostForm from "./pages/PostJob";
 import Jobs from "./pages/Jobs";
 import EmployeesPage from "./pages/FindWorkers";
+import EmployeeProfile from "./pages/EmployeeProfile";
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/post-job" element={<JobPostForm />} />
-        
+          <Route path="/employee/:id" element={<EmployeeProfile/>} />
           <Route path="/jobs-all" element={<Jobs />} />
           
         </Routes>

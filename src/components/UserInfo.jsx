@@ -1,83 +1,108 @@
 import React from 'react';
-import { FaEnvelope, FaPhone, FaUser, FaBriefcase, FaBuilding, FaCalendarAlt } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaBriefcase, FaBuilding, FaCalendarAlt } from 'react-icons/fa';
 
 const UserInfo = ({ user, formData }) => {
   return (
-    <div className="columns is-multiline">
-      {user.role === 'employee' ? (
-        <>
-          <div className="column is-half mt-6">
-            <div className="box has-background-danger-light">
-              <div className="icon-text">
-                <span className="icon has-text-danger">
-                  <FaBriefcase />
-                </span>
-                <span className="text"><strong>Job Title:</strong> {formData.jobTitle}</span>
+    <div className="columns is-centered mt-5">
+      <div className="column is-three-quarters">
+        {/* Profile Photo and Name */}
+        <div className="card">
+          <div className="card-content">
+            <div className="media">
+              <div className="media-left">
+                <figure className="image is-128x128">
+                  <img src={formData.profilePhoto} alt="User Photo" className="is-rounded" />
+                </figure>
+              </div>
+              <div className="media-content">
+                <p className="title is-4">{formData.name}</p>
               </div>
             </div>
           </div>
-          <div className="column is-half">
-            <div className="box has-background-info-light">
-              <div className="icon-text">
-                <span className="icon has-text-info">
-                  <FaCalendarAlt />
-                </span>
-                <span className="text"><strong>Date of Birth:</strong> {formData.dob}</span>
+        </div>
+
+        {/* Job Information or Company Information */}
+        {user.role === 'employee' ? (
+          <div className="card mt-4">
+            <div className="card-content">
+              <div className="content">
+                <div className="icon-text">
+                  <span className="icon has-text-danger">
+                    <FaBriefcase />
+                  </span>
+                  <span><strong>Job Title:</strong> {formData.jobTitle}</span>
+                </div>
+                <div className="icon-text">
+                  <span className="icon has-text-info">
+                    <FaCalendarAlt />
+                  </span>
+                  <span><strong>Date of Birth:</strong> {formData.dob}</span>
+                </div>
+                <div className="icon-text">
+                  <span className="icon has-text-primary">
+                    <FaPhone />
+                  </span>
+                  <span><strong>Phone:</strong> {formData.phone}</span>
+                </div>
+                <div className="icon-text">
+                  <span className="icon has-text-warning">
+                    <FaEnvelope />
+                  </span>
+                  <span><strong>Email:</strong> {formData.email}</span>
+                </div>
               </div>
             </div>
           </div>
-        </>
-      ) : (
-        <>
-          <div className="column is-half">
-            <div className="box has-background-success-light">
-              <div className="icon-text">
-                <span className="icon has-text-success">
-                  <FaBuilding />
-                </span>
-                <span className="text"><strong>Company Name:</strong> {formData.companyName}</span>
+        ) : (
+          <div className="card mt-4">
+            <div className="card-content">
+              <div className="content">
+                <div className="icon-text">
+                  <span className="icon has-text-success">
+                    <FaBuilding />
+                  </span>
+                  <span><strong>Company Name:</strong> {formData.companyName}</span>
+                </div>
+                <div className="icon-text">
+                  <span className="icon has-text-warning">
+                    <FaBuilding />
+                  </span>
+                  <span><strong>Company Description:</strong> {formData.companyDescription}</span>
+                </div>
+                <div className="icon-text">
+                  <span className="icon has-text-primary">
+                    <FaPhone />
+                  </span>
+                  <span><strong>Phone:</strong> {formData.phone}</span>
+                </div>
+                <div className="icon-text">
+                  <span className="icon has-text-warning">
+                    <FaEnvelope />
+                  </span>
+                  <span><strong>Email:</strong> {formData.email}</span>
+                </div>
               </div>
             </div>
           </div>
-          <div className="column is-half">
-            <div className="box has-background-warning-light">
+        )}
+
+        {/* Contact Information */}
+        <div className="card mt-4">
+          <div className="card-content">
+            <div className="content">
+              <div className="icon-text">
+                <span className="icon has-text-primary">
+                  <FaPhone />
+                </span>
+                <span><strong>Phone:</strong> {formData.phone}</span>
+              </div>
               <div className="icon-text">
                 <span className="icon has-text-warning">
-                  <FaBuilding />
+                  <FaEnvelope />
                 </span>
-                <span className="text"><strong>Company Description:</strong> {formData.companyDescription}</span>
+                <span><strong>Email:</strong> {formData.email}</span>
               </div>
             </div>
-          </div>
-        </>
-      )}
-      <div className="column is-half">
-        <div className="box has-background-light">
-          <div className="icon-text">
-            <span className="icon has-text-primary">
-              <FaPhone />
-            </span>
-            <span className="text"><strong>Phone:</strong> {formData.phone}</span>
-          </div>
-        </div>
-      </div>
-      <div className="column is-half">
-        <div className="box has-background-warning-light">
-          <div className="icon-text">
-            <span className="icon has-text-warning">
-              <FaEnvelope />
-            </span>
-            <span className="text"><strong>Email:</strong> {formData.email}</span>
-          </div>
-        </div>
-      </div>
-      <div className="column is-half">
-        <div className="box has-background-primary-light">
-          <div className="icon-text">
-            <span className="icon has-text-primary">
-              <FaUser />
-            </span>
-            <span className="text"><strong>Name:</strong> {formData.name}</span>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ const TestimonialsSection = () => {
     <section 
       className="section py-32-tablet is-relative is-clipped" 
       style={{
-        backgroundImage: 'url(https://res.cloudinary.com/dhrybaucr/image/upload/v1723271388/xhwwmnzyhgt7ne1pquig.png)', // Replace with your background image path
+        backgroundImage: 'url(https://res.cloudinary.com/dhrybaucr/image/upload/v1723271388/xhwwmnzyhgt7ne1pquig.png)', 
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}

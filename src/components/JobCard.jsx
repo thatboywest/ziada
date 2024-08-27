@@ -20,11 +20,11 @@ const JobCard = ({ job }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDelete = async (jobId) => {
-    const endpoint = 'http://localhost:8080/api';
+    const endpoint = `http://localhost:8080/api/jobs`; 
     const token = localStorage.getItem('token');
-
+  
     try {
-      await axios.delete(`${endpoint}/jobs/${jobId}`, {
+      await axios.delete(`${endpoint}/${jobId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -35,13 +35,13 @@ const JobCard = ({ job }) => {
       alert('Failed to delete job');
     }
   };
-
+  
   const handleMarkAsDone = async (jobId) => {
-    const endpoint = 'http://localhost:8080/api';
+    const endpoint = `http://localhost:8080/api/jobs`; 
     const token = localStorage.getItem('token');
-
+  
     try {
-      await axios.put(`${endpoint}/jobs/${jobId}`, { status: 'done' }, {
+      await axios.patch(`${endpoint}/${jobId}/done`, { status: 'done' }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -52,6 +52,7 @@ const JobCard = ({ job }) => {
       alert('Failed to mark job as done');
     }
   };
+  
 
   return (
     <div className="card" style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }}>

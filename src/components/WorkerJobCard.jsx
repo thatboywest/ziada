@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { formatDistanceToNow } from 'date-fns';
 
 const WorkerJobCard = ({ job }) => {
   const [loading, setLoading] = useState(false);
@@ -8,13 +9,12 @@ const WorkerJobCard = ({ job }) => {
   const [requestSent, setRequestSent] = useState(false);
 
   useEffect(() => {
-    // Check if the request has already been sent
     const checkRequestStatus = async () => {
       const token = localStorage.getItem('token');
       try {
         const response = await axios.get(`http://localhost:8080/api/job/${job._id}/request-status`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         setRequestSent(response.data.requestSent);
@@ -27,7 +27,7 @@ const WorkerJobCard = ({ job }) => {
   }, [job._id]);
 
   const handleSendJobRequest = async () => {
-    if (requestSent) return; 
+    if (requestSent) return;
 
     setLoading(true);
     setError(null);
@@ -36,14 +36,16 @@ const WorkerJobCard = ({ job }) => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.post('http://localhost:8080/api/interest', {
-        jobId: job._id,
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+      await axios.post(
+        'http://localhost:8080/api/interest',
+        { jobId: job._id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
         }
-      });
+      );
 
       setRequestSent(true);
       setSuccess('Job request sent successfully!');
@@ -54,17 +56,14 @@ const WorkerJobCard = ({ job }) => {
     }
   };
 
-  const postedDate = new Date(job.postedDate);
-  const now = new Date();
-  const timeDiff = Math.floor((now - postedDate) / (1000 * 60 * 60));
-  const postedTime = timeDiff < 1 ? 'New' : `${timeDiff} hrs ago`;
-  const statusClass = job.status === 'Active' ? 'is-success' : 'is-light';
+  const postedTime = formatDistanceToNow(new Date(job.createdAt), { addSuffix: true });
+  const statusClass = job.status === 'active' ? 'is-info' : 'is-light';
 
   return (
     <div className="card mb-4">
       <div className="card-header">
         <p className="card-header-title is-size-4 has-text-weight-bold">{job.jobTitle}</p>
-        <p className={`tag is-small ${timeDiff < 1 ? 'is-success' : 'is-light'} has-text-grey`}>
+        <p className={`tag is-small ${statusClass} has-text-grey`}>
           {postedTime}
         </p>
       </div>

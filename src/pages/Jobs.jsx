@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom';
 import WorkerJobCard from '../components/WorkerJobCard';
 
 const Jobs = () => {
@@ -12,10 +12,20 @@ const Jobs = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate(); // Added useNavigate hook for navigation
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
         const token = localStorage.getItem('token');
+        if (!token) {
+          setError('You need to log in first.');
+          setTimeout(() => {
+            navigate('/login'); // Redirect to login page
+          }, 2000);
+          return; // Exit the function early if no token
+        }
+
         const response = await axios.get('http://localhost:8080/api/jobs/all', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -29,7 +39,7 @@ const Jobs = () => {
         if (error.response && error.response.status === 403) {
           setError('You need to log in first.');
           setTimeout(() => {
-            navigate('/login'); 
+            navigate('/login'); // Redirect to login page
           }, 2000);
         } else {
           setError('Error fetching jobs');
@@ -41,7 +51,7 @@ const Jobs = () => {
     };
 
     fetchJobs();
-  }, []);
+  }, [navigate]); // Added navigate to dependency array
 
   useEffect(() => {
     const applyFilters = () => {
@@ -131,15 +141,17 @@ const Jobs = () => {
             {filteredJobs.length > 0 ? (
               filteredJobs.map(job => (
                 <div className="column is-one-third" key={job._id}>
-                 
-                    <WorkerJobCard job={job} />
-                 
+                  <WorkerJobCard job={job} />
                 </div>
               ))
             ) : (
-              <div className="column is-full">
-                <div className="notification is-warning">
-                  <p className="has-text-centered">No jobs found</p>
+              <div className="column is-half">
+                <div className="card has-background-warning-light">
+                  <div className="card-content">
+                    <div className="content has-text-centered">
+                      <p>No jobs found</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

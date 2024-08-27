@@ -1,25 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const EmployeesPage = () => {
   const [employees, setEmployees] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTown, setSelectedTown] = useState('');
   const [selectedCounty, setSelectedCounty] = useState('');
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/user/all-employee');
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('Unauthorized');
+        }
+
+        const response = await axios.get('http://localhost:8080/api/user/all-employee', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setEmployees(response.data.data);
       } catch (error) {
-        console.error('Error fetching employees:', error);
+        if (error.message === 'Unauthorized' || (error.response && error.response.status === 403)) {
+          setError('You need to log in first.');
+          setTimeout(() => {
+            navigate('/login');
+          }, 2000);
+        } else {
+          console.error('Error fetching employees:', error);
+          setError('Error fetching employees.');
+        }
       }
     };
 
     fetchEmployees();
-  }, []);
+  }, [navigate]);
 
   const filteredEmployees = employees.filter((employee) => {
     const matchesSearch = employee.jobTitle.toLowerCase().includes(searchQuery.toLowerCase());
@@ -31,10 +51,19 @@ const EmployeesPage = () => {
   const uniqueTowns = [...new Set(employees.map((employee) => employee.town))];
   const uniqueCounties = [...new Set(employees.map((employee) => employee.county))];
 
+  const truncateDescription = (description, wordLimit) => {
+    const words = description.split(' ');
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(' ') + '...';
+    }
+    return description;
+  };
+
+  if (error) return <div className="notification is-danger">{error}</div>;
+
   return (
     <div className="container">
-      <h1 className="title has-text-centered">Find taskers</h1>
-
+      <h1 className="title has-text-centered">Find Taskers</h1>
 
       <div className="field">
         <div className="control">
@@ -48,9 +77,8 @@ const EmployeesPage = () => {
         </div>
       </div>
 
-
-      <div className="columns">
-        <div className="column">
+      <div className="columns is-multiline is-centered">
+        <div className="column is-narrow">
           <div className="field">
             <label className="label">Filter by Town</label>
             <div className="control">
@@ -70,7 +98,7 @@ const EmployeesPage = () => {
             </div>
           </div>
         </div>
-        <div className="column">
+        <div className="column is-narrow">
           <div className="field">
             <label className="label">Filter by County</label>
             <div className="control">
@@ -92,30 +120,27 @@ const EmployeesPage = () => {
         </div>
       </div>
 
-
-      <div className="columns is-multiline">
+      <div className="columns is-multiline is-centered">
         {filteredEmployees.length > 0 ? (
           filteredEmployees.map((employee) => (
             <div key={employee._id} className="column is-one-third">
               <div className="card">
-
                 <div
                   className="card-image"
                   style={{
                     backgroundImage: `url(${employee.backgroundPhoto})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    height: '200px',
+                    height: '100px',
                     position: 'relative',
                   }}
                 >
-
                   <figure
-                    className="image is-128x128"
+                    className="image is-96x96 mb-6"
                     style={{
                       position: 'absolute',
-                      top: '150px',
-                      left: '20px',
+                      top: '50px',
+                      left: '10px',
                       zIndex: '1',
                     }}
                   >
@@ -127,16 +152,22 @@ const EmployeesPage = () => {
                   </figure>
                 </div>
 
-                <div className="card-content mt-6" style={{ paddingTop: '70px' }}>
-                  <p className="title is-4 tag is-info">{employee.name}</p>
-                  <p className="subtitle is-4 mt-4">
+                <div className="card-content" style={{ paddingTop: '4rem' }}>
+                  <p className="title is-6">{employee.name}</p>
+                  <p className="subtitle is-6">
                     <FaBriefcase className="icon" /> {employee.jobTitle}
                   </p>
                   <div className="content">
-                    <p>{employee.jobDescription}</p>
-                    <p className="mt-3 tag">
-                      {employee.county}, {employee.town}
+                    <p>{truncateDescription(employee.jobDescription, 10)}</p> 
+                    <p className="mt-3">
+                      <FaMapMarkerAlt className="icon" /> {employee.county}, {employee.town}
                     </p>
+                    <button
+                      className="button is-link is-small mt-3"
+                      onClick={() => window.location.href = `/employee/${employee._id}`}
+                    >
+                      View Profile
+                    </button>
                   </div>
                 </div>
               </div>

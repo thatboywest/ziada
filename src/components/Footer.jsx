@@ -9,32 +9,32 @@ const Footer = () => {
           <div className="column is-4 mb-12 mb-0-desktop">
             <a className="is-inline-block mb-3 title is-5 has-text-white" href="#"> 
               <img
-                src="https://via.placeholder.com/150" 
+                src="https://res.cloudinary.com/dhrybaucr/image/upload/v1724405466/bq4kj86qbdnnh0hfjedo.png" 
                 alt="Logo"
-                style={{ height: '28px' }}
+                style={{ height: '130px' }}
                 width="auto"
               />
             </a>
             <p className="mb-6 has-mw-xs has-text-light"> 
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Get It Done. Ziada.com connects you with the right opportunities or talent to make things happen quickly and efficiently. Start achieving more today.
             </p>
             <div className="is-flex">
               <a
-                className="is-flex is-justify-content-center is-align-items-center mr-4 has-text-white has-background-dark" // Adjust icon and background color
+                className="is-flex is-justify-content-center is-align-items-center mr-4 has-text-white has-background-dark" 
                 href="#"
                 style={{ width: '40px', height: '40px', borderRadius: '100%' }}
               >
                 <FaFacebookF size={20} />
               </a>
               <a
-                className="is-flex is-justify-content-center is-align-items-center mr-4 has-text-white has-background-dark" // Adjust icon and background color
+                className="is-flex is-justify-content-center is-align-items-center mr-4 has-text-white has-background-dark" 
                 href="#"
                 style={{ width: '40px', height: '40px', borderRadius: '100%' }}
               >
                 <FaTwitter size={20} />
               </a>
               <a
-                className="is-flex is-justify-content-center is-align-items-center mr-4 has-text-white has-background-dark" // Adjust icon and background color
+                className="is-flex is-justify-content-center is-align-items-center mr-4 has-text-white has-background-dark" 
                 href="#"
                 style={{ width: '40px', height: '40px', borderRadius: '100%' }}
               >
@@ -99,7 +99,7 @@ const Footer = () => {
           </div>
         </div>
         <p className="has-text-centered has-text-light"> 
-          All rights reserved © flexcode dev
+          All rights reserved © creative morgan
         </p>
       </div>
     </section>

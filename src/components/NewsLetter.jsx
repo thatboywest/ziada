@@ -6,7 +6,7 @@ const NewsletterSection = () => {
       <div className="container is-relative">
         <div className="has-text-centered">
           <h2 className="title mb-2">Join Our Newsletter</h2>
-          <p className="subtitle mb-6">Sign me up for Yofte newsletters to get exclusive perks.</p>
+          <p className="subtitle mb-6">Sign me up for Ziada newsletters to get exclusive perks.</p>
           <div className="columns is-centered">
             <div className="column is-narrow">
               <div className="field has-addons">
