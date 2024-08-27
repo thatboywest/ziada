@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook from React Router
+import { useNavigate } from 'react-router-dom'; 
 import { AuthContext } from '../context/AuthContext';
 import UserInfo from '../components/UserInfo';
 import EditProfile from '../components/EditProfile';
@@ -10,7 +10,7 @@ import JobList from '../components/JobList';
 
 const ProfilePage = () => {
   const { user, logout } = useContext(AuthContext);
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
     name: user?.name || '',
     profilePhoto: user?.profilePhoto || '',
@@ -37,7 +37,7 @@ const ProfilePage = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `http://localhost:8080/api/user/${user._id}`,
+        `https://ziadaapi.onrender.com/api/user/${user._id}`,
         formData,
         {
           headers: {
@@ -56,23 +56,24 @@ const ProfilePage = () => {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:8080/api/user/${user._id}`, {
+      await axios.delete(`https://ziadaapi.onrender.com/api/user/${user._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       logout();
       console.log('Profile deleted');
-      navigate('/login'); // Redirect to login page after deleting the profile
+      navigate('/login');
     } catch (error) {
       console.error('Delete error:', error);
     }
   };
 
-  // Check if user is not logged in, redirect to login
+  
+
   useEffect(() => {
     if (!user) {
-      navigate('/login'); // Redirect to login page if user is not logged in
+      navigate('/login'); 
     }
   }, [user, navigate]);
 
@@ -83,7 +84,7 @@ const ProfilePage = () => {
       <div className="container">
         <div className="columns is-centered mb-5">
           <div className="column is-8">
-            {/* Card for User Information and Edit Profile */}
+           
             <div className="card">
               <div className="card-content">
                 {editMode ? (
@@ -109,7 +110,7 @@ const ProfilePage = () => {
         </div>
 
         <div className="columns is-centered">
-          {/* Conditional Rendering based on User Role */}
+      
           {user.role === 'employee' && (
             <div className="column is-8">
               <TokenCard />

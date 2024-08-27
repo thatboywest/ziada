@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const userResponse = await axios.get('http://localhost:8080/api/user/profile', {
+                    const userResponse = await axios.get('https://ziadaapi.onrender.com/api/user/profile', {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                     setIsAuthenticated(true);
@@ -31,11 +31,11 @@ const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            const response = await axios.post('http://localhost:8080/api/login', { email, password });
+            const response = await axios.post('https://ziadaapi.onrender.com/api/login', { email, password });
             const { token } = response.data;
             localStorage.setItem('token', token);
 
-            const userResponse = await axios.get('http://localhost:8080/api/user/profile', {
+            const userResponse = await axios.get('https://ziadaapi.onrender.com/api/user/profile', {
                 headers: { Authorization: `Bearer ${token}` },
             });
 

@@ -20,7 +20,7 @@ const JobCard = ({ job }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDelete = async (jobId) => {
-    const endpoint = `http://localhost:8080/api/jobs`; 
+    const endpoint = `https://ziadaapi.onrender.com/api/jobs`; 
     const token = localStorage.getItem('token');
   
     try {
@@ -37,7 +37,7 @@ const JobCard = ({ job }) => {
   };
   
   const handleMarkAsDone = async (jobId) => {
-    const endpoint = `http://localhost:8080/api/jobs`; 
+    const endpoint = `https://ziadaapi.onrender.com/api/jobs`; 
     const token = localStorage.getItem('token');
   
     try {

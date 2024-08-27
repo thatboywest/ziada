@@ -12,7 +12,7 @@ const Jobs = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate(); // Added useNavigate hook for navigation
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -21,12 +21,12 @@ const Jobs = () => {
         if (!token) {
           setError('You need to log in first.');
           setTimeout(() => {
-            navigate('/login'); // Redirect to login page
+            navigate('/login'); 
           }, 2000);
-          return; // Exit the function early if no token
+          return; 
         }
 
-        const response = await axios.get('http://localhost:8080/api/jobs/all', {
+        const response = await axios.get('https://ziadaapi.onrender.com/api/jobs/all', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ const Jobs = () => {
         if (error.response && error.response.status === 403) {
           setError('You need to log in first.');
           setTimeout(() => {
-            navigate('/login'); // Redirect to login page
+            navigate('/login'); 
           }, 2000);
         } else {
           setError('Error fetching jobs');
@@ -51,7 +51,7 @@ const Jobs = () => {
     };
 
     fetchJobs();
-  }, [navigate]); // Added navigate to dependency array
+  }, [navigate]); 
 
   useEffect(() => {
     const applyFilters = () => {

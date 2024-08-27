@@ -5,7 +5,7 @@ const UserInfo = ({ user, formData }) => {
   return (
     <div className="columns is-centered mt-5">
       <div className="column is-three-quarters">
-        {/* Profile Photo and Name */}
+       
         <div className="card">
           <div className="card-content">
             <div className="media">
@@ -21,7 +21,7 @@ const UserInfo = ({ user, formData }) => {
           </div>
         </div>
 
-        {/* Job Information or Company Information */}
+        
         {user.role === 'employee' ? (
           <div className="card mt-4">
             <div className="card-content">
@@ -86,7 +86,6 @@ const UserInfo = ({ user, formData }) => {
           </div>
         )}
 
-        {/* Contact Information */}
         <div className="card mt-4">
           <div className="card-content">
             <div className="content">

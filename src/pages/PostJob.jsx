@@ -31,7 +31,7 @@ const JobPostForm = () => {
         const token = localStorage.getItem('token'); 
 
         try {
-            const response = await axios.post('http://localhost:8080/api/jobs', formData, {
+            const response = await axios.post('https://ziadaapi.onrender.com/api/jobs', formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

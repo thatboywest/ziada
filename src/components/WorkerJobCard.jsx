@@ -12,7 +12,7 @@ const WorkerJobCard = ({ job }) => {
     const checkRequestStatus = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get(`http://localhost:8080/api/job/${job._id}/request-status`, {
+        const response = await axios.get(`https://ziadaapi.onrender.com/api/job/${job._id}/request-status`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +37,7 @@ const WorkerJobCard = ({ job }) => {
 
     try {
       await axios.post(
-        'http://localhost:8080/api/interest',
+        'https://ziadaapi.onrender.com/api/interest',
         { jobId: job._id },
         {
           headers: {

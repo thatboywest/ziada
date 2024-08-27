@@ -116,7 +116,7 @@ const SignupPage = () => {
     }
 
     try {
-      const endpoint = formData.role === 'employee' ? 'http://localhost:8080/api/signup' : 'http://localhost:8080/api/signup';
+      const endpoint = formData.role === 'employee' ? 'https://ziadaapi.onrender.com/api/signup' : 'https://ziadaapi.onrender.com/api/signup';
       const response = await axios.post(endpoint, apiFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'

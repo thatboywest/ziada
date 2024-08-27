@@ -9,7 +9,7 @@ const InterestedUsers = ({ jobId }) => {
     const fetchInterestedUsers = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:8080/api/job/${jobId}/interested-users`, {
+        const response = await axios.get(`https://ziadaapi.onrender.com/api/job/${jobId}/interested-users`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

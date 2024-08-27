@@ -19,7 +19,7 @@ const EmployeesPage = () => {
           throw new Error('Unauthorized');
         }
 
-        const response = await axios.get('http://localhost:8080/api/user/all-employee', {
+        const response = await axios.get('https://ziadaapi.onrender.com/api/user/all-employee', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -9,7 +9,7 @@ const TokenCard = () => {
     try {
       const token = localStorage.getItem('token');
 
-      const response = await axios.get('http://localhost:8080/api/remaining-tokens', {
+      const response = await axios.get('https://ziadaapi.onrender.com/api/remaining-tokens', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

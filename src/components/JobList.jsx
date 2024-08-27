@@ -6,7 +6,7 @@ const JobList = () => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const endpoint = 'http://localhost:8080/api';
+    const endpoint = 'https://ziadaapi.onrender.com/api';
     const token = localStorage.getItem('token');
 
     useEffect(() => {
