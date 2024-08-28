@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const HeroSection = () => {
   const heroStyle = {
     backgroundImage: 'url(https://res.cloudinary.com/dhrybaucr/image/upload/v1724571810/pddv5faazzsirm6mrzry.png)',
@@ -19,7 +21,8 @@ const HeroSection = () => {
                   Discover flexible work opportunities and connect with employers looking for short-term help
                 </h2>
                 <div className="buttons is-centered has-text-black"> 
-                  <a className="button is-primary">Register</a>
+                  <Link to='/sign-up' className="button is-primary">Register</Link>
+               
                   <a className="button is-light">About</a>
                 </div>
               </div>

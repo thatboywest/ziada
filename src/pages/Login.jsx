@@ -70,7 +70,7 @@ const LoginForm = () => {
             <div className="has-text-centered mt-4">
               <p>
                 Not registered?{' '}
-                <Link to="/signup" className="has-text-primary">
+                <Link to="/sign-up" className="has-text-primary">
                   Sign up
                 </Link>
               </p>
